@@ -1,0 +1,6 @@
+*.pyc
+*.ipynb
+*.txt
+*.bin
+*.tsv
+*.pdf
