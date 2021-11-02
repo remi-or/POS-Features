@@ -191,12 +191,16 @@ class FeatureExtractor:
             )
         }]
 
-    def _feature_ner(self) -> Features:
+    def _feature_NER(self) -> Features:
         features = []
         for label in NerLabels:
             features.append({
                 'name' : f'{NerLabels[label]}',
                 'value' : sum(instances for instances in self.ners[label].values()),
+            })
+            features.append({
+                'name' : f'{NerLabels[label]} uniques',
+                'value' : len(self.ners[label].keys()),
             })
         return features
 
