@@ -17,3 +17,23 @@ UniversalPOStags = {
     'VERB' : 'verb',
     'X' : 'other',
 }
+
+UniversalPOStagsFrench = {
+    'ADJ' : 'adjectifs',
+    'ADP' : 'prépositions',
+    'ADV' : 'adverbes',
+    'AUX' : 'auxiliaires',
+    'CCONJ' : 'conjonction de coordination',
+    'DET' : 'déterminants',
+    'INTJ' : 'interjections',
+    'NOUN' : 'noms',
+    'NUM' : 'nombres',
+    'PART' : 'particules',
+    'PRON' : 'pronoms',
+    'PROPN' : 'noms propres',
+    'PUNCT' : 'ponctuations',
+    'SCONJ' : 'conjonctions de subordination',
+    'SYM' : 'symbols',
+    'VERB' : 'verbes',
+    'X' : 'autres',
+}

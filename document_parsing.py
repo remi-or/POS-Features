@@ -40,7 +40,7 @@ def count_lemma_of_type(
         """
         count = {}
         for token in (token for token in document if token.pos_ == type):
-            lemma = token.lemma_
+            lemma = token.lemma_.lower()
             count[lemma] = count[lemma] + 1 if lemma in count else 1
         return count
 
