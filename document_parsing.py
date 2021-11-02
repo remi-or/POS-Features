@@ -87,5 +87,19 @@ def find_by_text(
             found.append(token)
     return found
 
+def count_ner_by_label(
+    document : Document,
+    label : str,
+) -> Dict[str, int]:
+    """
+    Given a (document), counts the named entity in this document recognized as (label).
+    """
+    found = {}
+    for token in (token for token in document.ents if token.label_ == label):
+        if token.text not in found:
+            found[token.text] = 0
+        found[token.text] +=1
+    return found
+
 
 # endregion

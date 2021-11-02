@@ -31,7 +31,7 @@ def count_transitive(
 
 
 def get_lexique_3_subtitles_freqs(
-    types : str | List[str],
+    cgrams : str | List[str],
     lemmas : str | List[str],
     path : Optional[str] = None,
 ) -> List[float]:
@@ -43,17 +43,17 @@ def get_lexique_3_subtitles_freqs(
     """
     ## Type checking
     # Single couple case
-    if isinstance(types, str) and isinstance(lemmas, str):
-        types, lemmas = [types], [lemmas]
+    if isinstance(cgrams, str) and isinstance(lemmas, str):
+        cgrams, lemmas = [cgrams], [lemmas]
     # One type one list case
-    elif isinstance(types, str) and isinstance(lemmas, list):
-        types = [types] * len(lemmas)
+    elif isinstance(cgrams, str) and isinstance(lemmas, list):
+        cgrams = [cgrams] * len(lemmas)
     # Two lists case
-    elif isinstance(types, list) and isinstance(lemmas, list):
+    elif isinstance(cgrams, list) and isinstance(lemmas, list):
         pass
     # Error case
     else:
-        raise TypeError(f"Unsupported input types: {type(types)}, {type(lemmas)}.\nThis functions excepts str/str, list/list, str/list for types/lemmas")
+        raise TypeError(f"Unsupported input types: {type(cgrams)}, {type(lemmas)}.\nThis functions excepts str/str, list/list, str/list for types/lemmas")
     
     ## Loading the frequency table
     # Default path is set if None is given
@@ -65,13 +65,13 @@ def get_lexique_3_subtitles_freqs(
     
     ## Main loop
     frequencies = []
-    for _type, lemma in zip(types, lemmas):
+    for cgram, lemma in zip(cgrams, lemmas):
         # Check if the type is right
-        assert _type in UniversalPOStags, \
-            f"This type isn't an universal POS tag: {_type}. The universal POS tags are: {UniversalPOStags}"
+        assert cgram in UniversalPOStags, \
+            f"This type isn't an universal POS tag: {cgram}. The universal POS tags are: {UniversalPOStags}"
         # Case where the frequency isn't zero
         try:
-            frequencies.append(lemma_to_freq[_type][lemma])
+            frequencies.append(lemma_to_freq[cgram][lemma])
         # Case where the frequency is zero, excepted exception
         except KeyError:
             frequencies.append(0)

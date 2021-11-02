@@ -9,9 +9,9 @@ from spacy.tokens.doc import Doc
 
 
 from document_handling import process_document
-from document_parsing import count_morph_of_type, count_lemma_of_type
+from document_parsing import count_morph_of_type, count_lemma_of_type, count_ner_by_label
 from grammar_rules import count_transitive, get_lexique_3_subtitles_freqs, count_interrogative_words
-from resources import UniversalPOStags, UniversalPOStagsFrench
+from resources import UniversalPOStags, UniversalPOStagsFrench, NerLabels
 # endregion
 
 # region Types
@@ -39,11 +39,13 @@ class FeatureExtractor:
         t0 = - perf_counter()
         self.document = process_document(document)
         print(f"\rDocument processing finished in {(perf_counter() + t0):.2f}")
+
         # self.morph[type] = {morph : instances of morph in self.document}
         self.morphs = {
             type : count_morph_of_type(self.document, type)
             for type in UniversalPOStags
         }
+
         # self.lemmas[_type] = {lemma : instances of lemma of type _type in self.document}
         self.lemmas = {
             type : count_lemma_of_type(self.document, type)
@@ -55,6 +57,7 @@ class FeatureExtractor:
                 if not lemma in self.lemmas['ALL']:
                     self.lemmas['ALL'][lemma] = 0
                 self.lemmas['ALL'][lemma] += cardinal
+        
         # self.freqs[type] = {lemma : frequency of lemma in lexique3's subtitles}
         self.freqs = {
             type : {
@@ -66,6 +69,19 @@ class FeatureExtractor:
             lemma : sum(self.freqs[type][lemma] for type in UniversalPOStags if lemma in self.freqs[type])
             for lemma in self.lemmas['ALL']
         }
+
+        # self.ners[label] = {text : instances of text in self.document tagged as label}
+        self.ners = {
+            label : count_ner_by_label(self.document, label)
+            for label in NerLabels
+        }
+        self.ners['ALL'] = {}
+        for label in NerLabels:
+            for text, instances in self.ners[label].items():
+                if text not in self.ners['ALL']:
+                    self.ners['ALL'][text] = 0
+                self.ners['ALL'][text] += instances
+        
 
     def extract_features(
         self,
@@ -174,6 +190,15 @@ class FeatureExtractor:
                 for cgram in ['ADJ', 'PRON', 'ADV']
             )
         }]
+
+    def _feature_ner(self) -> Features:
+        features = []
+        for label in NerLabels:
+            features.append({
+                'name' : f'{NerLabels[label]}',
+                'value' : sum(instances for instances in self.ners[label].values()),
+            })
+        return features
 
     def _features_M(self) -> Features:
         features = []

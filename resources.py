@@ -43,3 +43,10 @@ InterrogativeWords = {
     'PRON' : ['lequel', 'quel', 'qui', 'quoi', 'que'],
     'ADV' : ['combien', 'combien de', 'comment', 'pourquoi', 'quand']
 }
+
+NerLabels = {
+    'LOC' : 'Lieux',
+    'MISC' : 'Détails',
+    'ORG' : 'Organisations',
+    'PER' : 'Personnes',
+}
