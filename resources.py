@@ -37,3 +37,9 @@ UniversalPOStagsFrench = {
     'VERB' : 'verbes',
     'X' : 'autres',
 }
+
+InterrogativeWords = {
+    'ADJ' : ['quel', 'où'],
+    'PRON' : ['lequel', 'quel', 'qui', 'quoi', 'que'],
+    'ADV' : ['combien', 'combien de', 'comment', 'pourquoi', 'quand']
+}

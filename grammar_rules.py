@@ -5,7 +5,7 @@ from typing import Dict, Optional, List
 import json
 from pathlib import Path
 
-from resources import UniversalPOStags
+from resources import UniversalPOStags, InterrogativeWords
 
 
 # endregion
@@ -80,7 +80,23 @@ def get_lexique_3_subtitles_freqs(
             raise unexcepected_exception
     
     return frequencies
-    
+
+
+def count_interrogative_words(
+    lemmas : Dict[str, int],
+    cgram : str,
+) -> int:
+    """
+    Given a (lemmas) dictionnary where lemmas are from (cgram), containing lemmas and their number of appearances in a document,
+    counts the number of interrogative words in the said document.
+    """
+    if cgram not in InterrogativeWords:
+        return 0
+    else:
+        return sum(
+            (lemmas[lemma] if lemma in lemmas else 0)
+            for lemma in InterrogativeWords[cgram]
+        )
     
 
 # endregion

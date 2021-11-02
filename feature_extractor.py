@@ -10,7 +10,7 @@ from spacy.tokens.doc import Doc
 
 from document_handling import process_document
 from document_parsing import count_morph_of_type, count_lemma_of_type
-from grammar_rules import count_transitive, get_lexique_3_subtitles_freqs
+from grammar_rules import count_transitive, get_lexique_3_subtitles_freqs, count_interrogative_words
 from resources import UniversalPOStags, UniversalPOStagsFrench
 # endregion
 
@@ -164,6 +164,15 @@ class FeatureExtractor:
         return [{
             'name' : f"Ecart type de la fréquence des mots dans le texte selon L3ST",
             'value' : np.std(list(self.freqs['ALL'].values()))
+        }]
+
+    def _feature_11(self) -> Features:
+        return [{
+            'name' : 'Mots interrogatifs',
+            'value' : sum(
+                count_interrogative_words(self.lemmas[cgram], cgram)
+                for cgram in ['ADJ', 'PRON', 'ADV']
+            )
         }]
 
     def _features_M(self) -> Features:
